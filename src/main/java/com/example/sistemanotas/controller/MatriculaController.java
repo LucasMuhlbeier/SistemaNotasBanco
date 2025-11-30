@@ -25,16 +25,16 @@ public class MatriculaController {
         this.alunoDisciplinaService = alunoDisciplinaService;
     }
 
-    // Matricular aluno: POST api/matricula
+
     @Operation(summary = "Matricular aluno em disciplina", description = "Cria um novo registro AlunoDisciplina.")
     @PostMapping
     public ResponseEntity<AlunoDisciplinaResponseDTO> matricular(@RequestBody @Valid MatriculaDTO dto) {
         AlunoDisciplinaResponseDTO response = alunoDisciplinaService.matricular(dto);
-        // Retorna 201 Created
+
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // Lançar/Atualizar Notas: PUT api/matricula/notas
+
     @Operation(summary = "Lançar ou atualizar notas", description = "Atualiza notas (1° Bimestre, 2° Bimestre, Final) e recalcula a situação do aluno.")
     @PutMapping("/notas")
     public ResponseEntity<AlunoDisciplinaResponseDTO> lancarNotas(@RequestBody @Valid LancamentoNotasDTO dto) {
@@ -42,7 +42,7 @@ public class MatriculaController {
         return ResponseEntity.ok(response);
     }
 
-    // Consultar Matrícula (Boletim por ID de Matrícula): GET api/matricula/{id}
+
     @Operation(summary = "Consultar status de uma matrícula", description = "Retorna notas, faltas e situação atual da matrícula.")
     @GetMapping("/{id}")
     public ResponseEntity<AlunoDisciplinaResponseDTO> buscarMatriculaPorId(@PathVariable Long id) {
