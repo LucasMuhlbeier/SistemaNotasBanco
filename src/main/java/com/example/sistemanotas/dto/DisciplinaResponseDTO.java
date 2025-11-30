@@ -10,5 +10,5 @@ public class DisciplinaResponseDTO {
     private String descricao;
     private String ementa;
     private Long professorId;
-    private String professorNome; // Informação extra para o frontend
+    private String professorNome; 
 }
