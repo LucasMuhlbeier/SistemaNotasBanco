@@ -16,23 +16,19 @@ public class Disciplina {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Relacionamento ManyToOne: Muitas Disciplinas para Um Professor (FK)
+
     @ManyToOne
-    @JoinColumn(name = "professor_id", nullable = false) // Nome da coluna da FK
+    @JoinColumn(name = "professor_id", nullable = false)
     private Professor professor;
 
     @Column(nullable = false, unique = true)
-    private String codigo; // Ex: ENG001
+    private String codigo;
 
     @Column(nullable = false)
-    private String descricao; // Ex: Engenharia de Software
+    private String descricao;
 
-    @Column(columnDefinition = "TEXT") // Permite textos longos
+    @Column(columnDefinition = "TEXT")
     private String ementa;
 
-    // Relacionamento com AlunoDisciplina (para o futuro, para listar matrículas)
-    /*
-    @OneToMany(mappedBy = "disciplina", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AlunoDisciplina> matriculas = new ArrayList<>();
-    */
+
 }
