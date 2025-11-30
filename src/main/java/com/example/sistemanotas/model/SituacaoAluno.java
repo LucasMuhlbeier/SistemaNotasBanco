@@ -5,7 +5,7 @@ public enum SituacaoAluno {
     REPROVADO,
     EM_CURSO,
     EM_EXAME,
-    REPROVADO_POR_FALTA, // Adicionado para melhor clareza na lógica
+    REPROVADO_POR_FALTA, 
     REPROVADO_POR_NOTA,
     CURSANDO
 }
