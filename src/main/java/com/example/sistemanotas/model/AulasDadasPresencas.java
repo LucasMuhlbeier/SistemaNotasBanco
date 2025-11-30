@@ -16,16 +16,16 @@ public class AulasDadasPresencas {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Relacionamento ManyToOne: Muitas presenças para Uma Aula Dada (FK)
+
     @ManyToOne
     @JoinColumn(name = "aula_dada_id", nullable = false)
     private AulasDadas aulaDada;
 
-    // Relacionamento ManyToOne: Muitas presenças para Um Aluno (FK)
+
     @ManyToOne
     @JoinColumn(name = "aluno_id", nullable = false)
     private Aluno aluno;
 
     @Column(nullable = false)
-    private Boolean falta = false; // true se o aluno faltou, false se presente
+    private Boolean falta = false;
 }
