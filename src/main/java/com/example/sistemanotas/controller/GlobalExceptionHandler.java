@@ -18,16 +18,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * Captura exceções lançadas nos Services e as transforma em respostas HTTP adequadas.
- */
+
 @ControllerAdvice
 @RestController
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    /**
-     * Trata RuntimeException (usadas nas regras de negócio para indicar erros de lógica ou dados não encontrados).
-     */
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Object> handleRuntimeException(RuntimeException ex, WebRequest request) {
 
@@ -35,20 +31,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         body.put("timestamp", LocalDateTime.now());
         body.put("message", ex.getMessage());
 
-        // Decisão de Status HTTP baseada no conteúdo da mensagem de erro:
-        HttpStatus status = HttpStatus.BAD_REQUEST; // 400 default para erros de negócio/validação
+        HttpStatus status = HttpStatus.BAD_REQUEST;
 
-        // Se a mensagem indicar que um recurso não foi encontrado, usamos 404
+
         if (ex.getMessage().contains("não encontrado") || ex.getMessage().contains("Não encontrada")) {
-            status = HttpStatus.NOT_FOUND; // 404
+            status = HttpStatus.NOT_FOUND;
         }
 
         return new ResponseEntity<>(body, status);
     }
 
-    /**
-     * Trata IllegalArgumentException (usadas para argumentos de método inválidos, ex: bimestre != 1 ou 2).
-     */
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
         Map<String, Object> body = new LinkedHashMap<>();
@@ -58,10 +51,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST); // 400
     }
 
-    /**
-     * NOVO: Trata erros de validação (@Valid ou @Validated) nos DTOs de entrada.
-     * Retorna um 400 Bad Request com a lista de todos os campos com erro.
-     */
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers,
