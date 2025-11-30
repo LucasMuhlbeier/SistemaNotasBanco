@@ -8,13 +8,13 @@ import lombok.Data;
 public class DisciplinaCadastroDTO {
 
     @NotNull(message = "O ID do professor é obrigatório")
-    private Long professorId; // Recebe apenas o ID da FK
+    private Long professorId;
 
     @NotBlank(message = "O código da disciplina é obrigatório")
-    private String codigo; // Ex: ENG001 (deve ser único)
+    private String codigo;
 
     @NotBlank(message = "A descrição é obrigatória")
-    private String descricao; // Ex: Engenharia de Software
+    private String descricao;
 
     private String ementa;
 }
