@@ -25,7 +25,6 @@ public class DisciplinaController {
         this.disciplinaService = disciplinaService;
     }
 
-    // Cadastrar disciplina: POST api/disciplina
     @Operation(summary = "Cadastrar nova disciplina", description = "Recebe dados, verifica código único e FK do professor.")
     @PostMapping
     public ResponseEntity<DisciplinaResponseDTO> cadastrarDisciplina(@RequestBody @Valid DisciplinaCadastroDTO dto) {
@@ -33,7 +32,6 @@ public class DisciplinaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // Atualizar disciplina: PUT api/disciplina
     @Operation(summary = "Atualizar dados de uma disciplina", description = "Atualiza descrição, ementa ou professor responsável.")
     @PutMapping
     public ResponseEntity<DisciplinaResponseDTO> atualizarDisciplina(@RequestBody @Valid DisciplinaAtualizacaoDTO dto) {
@@ -41,7 +39,6 @@ public class DisciplinaController {
         return ResponseEntity.ok(response);
     }
 
-    // Listar todas as disciplinas: GET api/disciplina/todas
     @Operation(summary = "Listar todas as disciplinas")
     @GetMapping("/todas")
     public ResponseEntity<List<DisciplinaResponseDTO>> listarTodasDisciplinas() {
@@ -49,16 +46,13 @@ public class DisciplinaController {
         return ResponseEntity.ok(response);
     }
 
-    // Buscar disciplina por código: GET api/disciplina/{codigo}
     @Operation(summary = "Buscar disciplina por código")
-    @GetMapping("/codigo/{codigo}") // Mudança para evitar conflito com {professorId} abaixo
+    @GetMapping("/codigo/{codigo}")
     public ResponseEntity<DisciplinaResponseDTO> buscarDisciplinaPorCodigo(@PathVariable String codigo) {
         DisciplinaResponseDTO response = disciplinaService.buscarDisciplinaPorCodigo(codigo);
         return ResponseEntity.ok(response);
     }
 
-    // Listar disciplinas de um professor: GET api/disciplina/professor/{professorId}
-    // Mudança para evitar ambiguidade com {codigo}
     @Operation(summary = "Listar disciplinas de um professor", description = "Lista todas as disciplinas lecionadas pelo professor com o ID fornecido.")
     @GetMapping("/professor/{professorId}")
     public ResponseEntity<List<DisciplinaResponseDTO>> listarDisciplinasPorProfessor(@PathVariable Long professorId) {
@@ -66,12 +60,4 @@ public class DisciplinaController {
         return ResponseEntity.ok(response);
     }
 
-    // Listar alunos matriculados em uma disciplina: GET api/disciplina/{idDisciplina}/matriculados
-    // Este endpoint será implementado após a criação do AlunoDisciplinaService.
-    /*
-    @GetMapping("/{idDisciplina}/matriculados")
-    public ResponseEntity<List<AlunoResponseDTO>> listarAlunosMatriculados(@PathVariable Long idDisciplina) {
-        // Lógica futura
-    }
-    */
 }
