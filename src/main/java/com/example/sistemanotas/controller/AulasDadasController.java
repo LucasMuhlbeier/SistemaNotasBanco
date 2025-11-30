@@ -26,15 +26,31 @@ public class AulasDadasController {
         this.aulasDadasService = aulasDadasService;
     }
 
-    // 1. Registrar Aula: POST api/aulas
+
+
     @Operation(summary = "Registrar uma aula ministrada", description = "Cria um registro para uma aula de uma disciplina em uma data específica.")
     @PostMapping
-    public ResponseEntity<AulasDadasResponseDTO> registrarAula(@RequestBody @Valid AulasDadasCadastroDTO dto) {
+    public ResponseEntity<AulasDadasResponseDTO> registrarAulaPadrao(@RequestBody @Valid AulasDadasCadastroDTO dto) {
         AulasDadasResponseDTO response = aulasDadasService.registrarAula(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // 2. Lançar Lista de Chamada: POST api/aulas/chamada
+
+
+
+    @Operation(summary = "Registrar uma aula ministrada (via URL ID)", description = "Cria um registro de aula e associa à disciplina usando o ID da URL.")
+    @PostMapping("/disciplina/{disciplinaId}/registrar")
+    public ResponseEntity<AulasDadasResponseDTO> registrarAulaComIdNaURL(
+            @PathVariable Long disciplinaId,
+            @RequestBody @Valid AulasDadasCadastroDTO dto) {
+
+        dto.setDisciplinaId(disciplinaId);
+
+        AulasDadasResponseDTO response = aulasDadasService.registrarAula(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+
     @Operation(summary = "Lançar lista de chamada", description = "Registra a presença/falta de alunos para uma aula. Limpa e recria os registros existentes.")
     @PostMapping("/chamada")
     public ResponseEntity<String> lancarListaChamada(@RequestBody @Valid ListaChamadaDTO dto) {
@@ -42,7 +58,8 @@ public class AulasDadasController {
         return ResponseEntity.ok(message);
     }
 
-    // 3. Listar Aulas por Disciplina: GET api/aulas/disciplina/{id}
+
+
     @Operation(summary = "Listar aulas de uma disciplina", description = "Retorna todas as aulas registradas para uma disciplina.")
     @GetMapping("/disciplina/{disciplinaId}")
     public ResponseEntity<List<AulasDadasResponseDTO>> listarAulasPorDisciplina(@PathVariable Long disciplinaId) {
@@ -50,7 +67,7 @@ public class AulasDadasController {
         return ResponseEntity.ok(response);
     }
 
-    // 4. Obter Alunos Matriculados para Chamada: GET api/aulas/{aulaId}/alunos
+
     @Operation(summary = "Obter lista de alunos para chamada", description = "Retorna todos os alunos matriculados na disciplina referente à aula, pronto para o lançamento da chamada.")
     @GetMapping("/{aulaDadaId}/alunos")
     public ResponseEntity<List<AlunoResponseDTO>> buscarAlunosMatriculados(@PathVariable Long aulaDadaId) {
