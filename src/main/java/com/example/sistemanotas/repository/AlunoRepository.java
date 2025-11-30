@@ -1,6 +1,6 @@
-package com.example.sistemanotas.repository; // Pacote ajustado
+package com.example.sistemanotas.repository;
 
-import com.example.sistemanotas.model.Aluno; // Import ajustado
+import com.example.sistemanotas.model.Aluno;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
