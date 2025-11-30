@@ -16,14 +16,13 @@ public class AlunoService {
 
     private final AlunoRepository alunoRepository;
 
-    // Injeção de dependência do Repository
+
     public AlunoService(AlunoRepository alunoRepository) {
         this.alunoRepository = alunoRepository;
     }
 
-    // --- MÉTODOS DE CONVERSÃO (MAPPER) ---
 
-    // 1. DTO de Cadastro para Entidade
+
     private Aluno toEntity(AlunoCadastroDTO dto) {
         Aluno aluno = new Aluno();
         aluno.setNome(dto.getNome());
@@ -34,7 +33,7 @@ public class AlunoService {
         return aluno;
     }
 
-    // 2. DTO de Resposta (Entidade para DTO)
+
     public AlunoResponseDTO toResponseDTO(Aluno aluno) {
         AlunoResponseDTO dto = new AlunoResponseDTO();
         dto.setId(aluno.getId());
@@ -46,12 +45,11 @@ public class AlunoService {
         return dto;
     }
 
-    // --- MÉTODOS DE NEGÓCIO ---
 
-    // Endpoint: POST api/aluno
+
     @Transactional
     public AlunoResponseDTO cadastrarAluno(AlunoCadastroDTO dto) {
-        // Regra de Negócio: Verificar se CPF ou RA já existem
+
         if (alunoRepository.findByCpf(dto.getCpf()).isPresent()) {
             throw new RuntimeException("CPF já cadastrado.");
         }
@@ -64,13 +62,13 @@ public class AlunoService {
         return toResponseDTO(alunoSalvo);
     }
 
-    // Endpoint: PUT api/aluno
+
     @Transactional
     public AlunoResponseDTO atualizarAluno(AlunoAtualizacaoDTO dto) {
         Aluno aluno = alunoRepository.findById(dto.getId())
                 .orElseThrow(() -> new RuntimeException("Aluno não encontrado com ID: " + dto.getId()));
 
-        // Atualiza apenas os campos permitidos
+
         if (dto.getNome() != null) {
             aluno.setNome(dto.getNome());
         }
@@ -82,20 +80,20 @@ public class AlunoService {
         return toResponseDTO(alunoAtualizado);
     }
 
-    // Endpoint: GET api/aluno/{id}
+
     public AlunoResponseDTO buscarAlunoPorId(Long id) {
         Aluno aluno = alunoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Aluno não encontrado com ID: " + id));
         return toResponseDTO(aluno);
     }
 
-    // Método interno para obter a Entidade (útil para outros Services)
+
     public Aluno buscarEntidadePorId(Long id) {
         return alunoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Aluno não encontrado com ID: " + id));
     }
 
-    // Endpoint: GET api/aluno/todos
+
     public List<AlunoResponseDTO> listarTodosAlunos() {
         return alunoRepository.findAll().stream()
                 .map(this::toResponseDTO)
