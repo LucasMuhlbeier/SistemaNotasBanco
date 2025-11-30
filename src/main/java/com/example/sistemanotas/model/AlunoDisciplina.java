@@ -26,24 +26,24 @@ public class AlunoDisciplina {
     @JoinColumn(name = "disciplina_id", nullable = false)
     private Disciplina disciplina;
 
-    // --- CAMPOS DE NOTAS (BigDecimal) ---
+
     @Column(name = "nota_1_bim", precision = 3, scale = 1)
-    private BigDecimal nota1Bimestre; // Nome padronizado para o Service
+    private BigDecimal nota1Bimestre;
 
     @Column(name = "nota_2_bim", precision = 3, scale = 1)
-    private BigDecimal nota2Bimestre; // Nome padronizado para o Service
+    private BigDecimal nota2Bimestre;
 
     @Column(name = "nota_final", precision = 3, scale = 1)
     private BigDecimal notaFinal;
 
-    // --- CAMPOS CALCULADOS ---
+
     @Column(name = "media_parcial", precision = 3, scale = 1)
     private BigDecimal mediaParcial;
 
     @Column(name = "media_final", precision = 3, scale = 1)
     private BigDecimal mediaFinal;
 
-    // --- CAMPOS DE FREQUÊNCIA ---
+
     @Column(name = "total_aulas_dadas")
     private Long totalAulasDadas = 0L;
 
@@ -56,7 +56,7 @@ public class AlunoDisciplina {
     @Column(nullable = false)
     private Boolean matriculado = true;
 
-    // Situação Final
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private SituacaoAluno situacao = SituacaoAluno.CURSANDO;
