@@ -3,10 +3,7 @@ package com.example.sistemanotas.dto;
 import com.example.sistemanotas.model.SituacaoAluno;
 import java.math.BigDecimal;
 
-/**
- * DTO de Resposta para Matrícula em Disciplina (Boletim).
- * Contém dados do aluno, disciplina, notas, frequências e situação.
- */
+
 public class AlunoDisciplinaResponseDTO {
 
     private Long id;
@@ -16,23 +13,23 @@ public class AlunoDisciplinaResponseDTO {
     private String disciplinaCodigo;
     private String disciplinaDescricao;
 
-    // Notas
+
     private BigDecimal nota1Bimestre;
     private BigDecimal nota2Bimestre;
     private BigDecimal notaFinal;
     private BigDecimal mediaParcial;
     private BigDecimal mediaFinal;
 
-    // Frequência
+
     private Long totalAulasDadas;
     private Long totalFaltas;
     private BigDecimal percentualFrequencia;
 
-    // Status
+
     private SituacaoAluno situacao;
     private Boolean matriculado; // CAMPO QUE ESTAVA FALTANDO E CAUSAVA O ERRO
 
-    // --- Getters e Setters ---
+
 
     public Long getId() {
         return id;
@@ -158,7 +155,7 @@ public class AlunoDisciplinaResponseDTO {
         return matriculado;
     }
 
-    // CORREÇÃO: SetMatriculado ausente estava causando o erro
+
     public void setMatriculado(Boolean matriculado) {
         this.matriculado = matriculado;
     }
