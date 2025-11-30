@@ -10,5 +10,5 @@ public class FaltaRegistroDTO {
     private Long alunoId;
 
     @NotNull(message = "O status de falta é obrigatório")
-    private Boolean falta; // true = faltou, false = presente
+    private Boolean falta; 
 }
