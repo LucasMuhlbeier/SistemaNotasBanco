@@ -38,11 +38,11 @@ public class AulasDadasService {
         this.alunoDisciplinaRepository = alunoDisciplinaRepository;
     }
 
-    // --- MÉTODOS DE CONVERSÃO ---
+
 
     private AulasDadas toEntity(AulasDadasCadastroDTO dto) {
         AulasDadas aula = new AulasDadas();
-        // Garante que a disciplina existe
+
         Disciplina disciplina = disciplinaService.buscarEntidadePorId(dto.getDisciplinaId());
 
         aula.setDisciplina(disciplina);
@@ -64,12 +64,12 @@ public class AulasDadasService {
         return dto;
     }
 
-    // --- MÉTODOS DE NEGÓCIO (AULAS) ---
 
-    // 1. Registrar Aula: POST api/aulas
+
+
     @Transactional
     public AulasDadasResponseDTO registrarAula(AulasDadasCadastroDTO dto) {
-        // Regra: Uma aula por disciplina na mesma data
+
         if (aulasDadasRepository.findByDisciplinaIdAndData(dto.getDisciplinaId(), dto.getData()).isPresent()) {
             throw new RuntimeException("Já existe uma aula registrada para esta disciplina nesta data.");
         }
@@ -79,7 +79,7 @@ public class AulasDadasService {
         return toResponseDTO(aulaSalva);
     }
 
-    // 2. Listar Aulas por Disciplina: GET api/aulas/disciplina/{id}
+
     public List<AulasDadasResponseDTO> listarAulasPorDisciplina(Long disciplinaId) {
         disciplinaService.buscarEntidadePorId(disciplinaId);
 
@@ -88,12 +88,12 @@ public class AulasDadasService {
                 .collect(Collectors.toList());
     }
 
-    // 3. Buscar alunos matriculados para lista de chamada: GET api/aulas/{aulaId}/alunos
+
     public List<AlunoResponseDTO> buscarAlunosMatriculados(Long aulaDadaId) {
         AulasDadas aula = aulasDadasRepository.findById(aulaDadaId)
                 .orElseThrow(() -> new RuntimeException("Aula não encontrada com ID: " + aulaDadaId));
 
-        // Obtém apenas os alunos com matrícula ativa na disciplina desta aula
+
         List<Aluno> alunos = alunoDisciplinaRepository.findByDisciplinaIdAndMatriculadoTrue(aula.getDisciplina().getId()).stream()
                 .map(ad -> ad.getAluno())
                 .collect(Collectors.toList());
@@ -103,15 +103,15 @@ public class AulasDadasService {
                 .collect(Collectors.toList());
     }
 
-    // --- MÉTODOS DE NEGÓCIO (PRESENÇA/FALTA) ---
 
-    // 4. Lançar Lista de Chamada: POST api/aulas/chamada
+
+
     @Transactional
     public String lancarListaChamada(ListaChamadaDTO dto) {
         AulasDadas aula = aulasDadasRepository.findById(dto.getAulaDadaId())
                 .orElseThrow(() -> new RuntimeException("Aula não encontrada com ID: " + dto.getAulaDadaId()));
 
-        // Limpa registros anteriores para permitir a atualização da chamada
+
         aulasDadasPresencasRepository.deleteByAulaDadaId(aula.getId());
 
         int faltasRegistradas = 0;
@@ -119,7 +119,7 @@ public class AulasDadasService {
         for (FaltaRegistroDTO registro : dto.getRegistros()) {
             Aluno aluno = alunoService.buscarEntidadePorId(registro.getAlunoId());
 
-            // Regra: Verificar se o aluno está ATUALMENTE matriculado na disciplina desta aula
+
             if (alunoDisciplinaRepository.findByAlunoIdAndDisciplinaIdAndMatriculadoTrue(
                     aluno.getId(), aula.getDisciplina().getId()).isEmpty()) {
 
@@ -128,7 +128,7 @@ public class AulasDadasService {
                 );
             }
 
-            // Apenas registra se houver falta (TRUE)
+
             if (registro.getFalta()) {
                 AulasDadasPresencas presenca = new AulasDadasPresencas();
                 presenca.setAulaDada(aula);
